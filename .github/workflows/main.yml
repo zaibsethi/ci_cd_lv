@@ -14,31 +14,23 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Deploy to server
-      uses: shivammathur/setup-php@v2
+      uses: appleboy/ssh-action@master
       with:
-          # php-version: '8.2'
-          # tools: composer:v2 
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            cd /home/u957777877/public_html
-            git pull origin production
-            composer install --no-dev
-            php artisan migrate
-            php artisan config:cache
-            php artisan route:cache
-            php artisan optimize
-
-    - name: Install dependencies
-      run: composer install --no-dev --optimize-autoloader
-           touch /home/u957777877/public_html/testfile.txt
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /home/u957777877/public_html
+          git pull origin main
+          composer install --no-dev --optimize-autoloader
+          php artisan migrate --force
+          php artisan config:cache
+          php artisan route:cache
+          php artisan optimize
 
 
-      #
-
-
+# =====================
 
 # deploy.yml
 
