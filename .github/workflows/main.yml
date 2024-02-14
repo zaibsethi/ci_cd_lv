@@ -26,4 +26,5 @@ jobs:
       run: |
         sudo apt-get install -y sshpass
 
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${secrets.USERNAME}@${{ secrets.HOST }} "cd //home/u957777877/public_html && git pull origin main && php artisan migrate --force"
+        # sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${secrets.USERNAME}@${{ secrets.HOST }} "cd //home/u957777877/public_html && git pull origin main && php artisan migrate --force"
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${secrets.USERNAME}@${{ secrets.HOST }} 
