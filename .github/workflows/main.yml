@@ -33,7 +33,7 @@ jobs:
 
     - name: Install dependencies
       run: composer install --no-dev --optimize-autoloader
-           touch /home/u957777877/public_html/testfile.txt
+          #  touch /home/u957777877/public_html/testfile.txt
 
 
       #
