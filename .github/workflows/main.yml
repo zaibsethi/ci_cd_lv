@@ -13,6 +13,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Update Composer
+      run: composer self-update --2
+
     - name: Deploy to server
       uses: appleboy/ssh-action@master
       with:
@@ -28,7 +31,6 @@ jobs:
           php artisan config:cache
           php artisan route:cache
           php artisan optimize
-
 
 # =====================
 
