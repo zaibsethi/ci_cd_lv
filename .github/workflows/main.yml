@@ -1,4 +1,37 @@
-name: Deploy to Hostinger
+# name: Deploy to Hostinger
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+
+#     - name: Install PHP and Composer
+#       uses: shivammathur/setup-php@v2
+#       with:
+#         php-version: '8.2'
+#         tools: composer:v2
+
+#     - name: Install dependencies
+#       run: composer install --no-dev --optimize-autoloader
+
+#     - name: Deploy to Hostinger
+#       run: |
+#         sudo apt-get install -y sshpass
+
+#         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${secrets.USERNAME}@${{ secrets.HOST }} "cd //home/u957777877/public_html && git pull origin main && php artisan migrate --force"
+
+
+# deploy.yml
+
+name: Laravel Deployment
 
 on:
   push:
@@ -10,20 +43,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install PHP and Composer
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        tools: composer:v2
-
-    - name: Install dependencies
-      run: composer install --no-dev --optimize-autoloader
-
-    - name: Deploy to Hostinger
-      run: |
-        sudo apt-get install -y sshpass
-
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${secrets.USERNAME}@${{ secrets.HOST }} "cd //home/u957777877/public_html && git pull origin main && php artisan migrate --force"
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v2
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /home/u957777877/public_html
+            git pull origin production
+            composer install --no-dev
+            php artisan migrate
+            php artisan config:cache
+            php artisan route:cache
+            php artisan optimize
