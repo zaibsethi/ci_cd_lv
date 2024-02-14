@@ -25,7 +25,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd /home/u957777877/public_html
-          git pull origin main
+          # git pull origin main
           composer install --no-dev --optimize-autoloader
           php artisan migrate --force
           php artisan config:cache
