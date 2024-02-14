@@ -17,7 +17,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
           php-version: '8.2'
-          tools: composer:v2
+          tools: composer:v2 
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -33,6 +33,8 @@ jobs:
 
     - name: Install dependencies
       run: composer install --no-dev --optimize-autoloader
+      run: touch /home/u957777877/public_html/testfile.txt
+
 
       #
 
